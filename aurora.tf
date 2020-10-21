@@ -65,4 +65,3 @@ resource "aws_rds_cluster_parameter_group" "kong" {
     var.tags
   )
 }
-

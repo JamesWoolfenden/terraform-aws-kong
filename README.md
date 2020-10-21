@@ -5,7 +5,6 @@ While it may work for certain scenarios, it is NOT intended to work with
 all setups. Please fork the repo or copy over code from here
 (liberal Apache-licensed).
 
-
 [Kong API Gateway](https://konghq.com/) is an API gateway microservices
 management layer. Both Kong and Enterprise Edition are supported.
 
@@ -23,12 +22,12 @@ By default, the following resources will be provisioned:
   - HTTPS:8446 - Kong Dev Portal GUI (Enterprise Edition only)
   - HTTPS:8447 - Kong Dev Portal API (Enterprise Edition only)
 - Security groups granting least privilege access to resources
-- An IAM instance profile for access to Kong specific SSM Parameter Store 
+- An IAM instance profile for access to Kong specific SSM Parameter Store
   metadata and secrets
 
 Optionally, a redis cluster can be provisioned for rate-limiting counters and
 caching, and most default resources can be disabled.  See variables.tf for a
-complete list and description of tunables. 
+complete list and description of tunables.
 
 The Kong nodes are based on [Minimal Ubuntu](https://wiki.ubuntu.com/Minimal).
 Using cloud-init, the following is provisioned on top of the AMI:
@@ -65,6 +64,7 @@ Prerequisites:
   "0.0.0.0/0"
 ]
 ```
+
 </td>
 <td>no</td>
 </tr>
@@ -125,6 +125,7 @@ Prerequisites:
   "127.0.0.1/32"
 ]
 ```
+
 </td>
 <td>no</td>
 </tr>
@@ -331,6 +332,7 @@ Prerequisites:
   "us-west-2": "ami-59694f21"
 }
 ```
+
 </td>
 <td>no</td>
 </tr>
@@ -501,6 +503,7 @@ n/a</td>
   "0.0.0.0/0"
 ]
 ```
+
 </td>
 <td>no</td>
 </tr>
@@ -605,6 +608,7 @@ n/a</td>
   "0.0.0.0/0"
 ]
 ```
+
 </td>
 <td>no</td>
 </tr>
@@ -621,6 +625,7 @@ n/a</td>
   "0.0.0.0/0"
 ]
 ```
+
 </td>
 <td>no</td>
 </tr>
@@ -637,6 +642,7 @@ n/a</td>
   "0.0.0.0/0"
 ]
 ```
+
 </td>
 <td>no</td>
 </tr>
@@ -648,7 +654,7 @@ n/a</td>
 `string`
 </td>
 <td>
-  
+
 `"default`"
 </td>
 <td>no</td>
@@ -666,6 +672,7 @@ n/a</td>
   "0.0.0.0/0"
 ]
 ```
+
 </td>
 <td>no</td>
 </tr>
@@ -871,7 +878,7 @@ n/a</td>
 </tr>
 <tr>
 <td>db_final_snapshot_identifier</td>
-<td>If specified a final snapshot will be made of the RDS instance. If left blank, the finalsnapshot will be skipped</td>
+<td>If specified a final snapshot will be made of the RDS instance. If left blank, the final snapshot will be skipped</td>
 <td>
 
 `string`</td>
@@ -901,6 +908,7 @@ internal; however, no resources associated with it are created unless enabled.
 
 Example main.tf:
 
+```terraform
     provider "aws" {
       region  = "us-west-2"
       profile = "dev"
@@ -923,12 +931,15 @@ Example main.tf:
          Team = "DevOps"
       }
     }
+```
 
 Create the resources in AWS:
 
+```cli
     terraform init
     terraform plan -out kong.plan
     terraform apply kong.plan
+```
 
 If installing Enterprise Edition, while resources are being provisioned login
 to the AWS console and navigate to:
@@ -936,19 +947,21 @@ to the AWS console and navigate to:
     Systems Manager -> Parameter Store
 
 Update the license key by editing the parameter (default value is "placeholder"):
- 
+
     /[service]/[environment]/ee/license
 
-Update the Bintray authentication paramater (default value is "placeholder",
+Update the Bintray authentication parameter (default value is "placeholder",
 format is "username:apikey")" for downloads:
 
     /[service]/[environment]/ee/bintray-auth
 
-Alternatively, if your terraform files and state are secure, you can pass them 
+Alternatively, if your terraform files and state are secure, you can pass them
 as variables to the module for a completely hands-off installation.
 
 To login to the EC2 instance(s):
 
+```cli
     ssh -i [/path/to/key/specified/in/ec2_key_name] ubuntu@[ec2-instance]
+```
 
 You are now ready to manage APIs!

@@ -31,7 +31,7 @@ EE_CREDS=$(aws_get_parameter ee/bintray-auth)
 if [ "$EE_LICENSE" != "placeholder" ]; then
     curl -sL https://kong.bintray.com/kong-enterprise-edition-deb/dists/${EE_PKG} \
         -u $EE_CREDS \
-        -o ${EE_PKG} 
+        -o ${EE_PKG}
 
     if [ ! -f ${EE_PKG} ]; then
         echo "Error: Enterprise edition download failed, aborting."
@@ -44,7 +44,7 @@ $EE_LICENSE
 EOF
     chown root:kong /etc/kong/license.json
     chmod 640 /etc/kong/license.json
-else  
+else
     curl -sL "https://bintray.com/kong/kong-deb/download_file?file_path=${CE_PKG}" \
         -o ${CE_PKG}
     dpkg -i ${CE_PKG}
@@ -95,7 +95,7 @@ cat <<EOF > /etc/kong/kong.conf
 #   - See kong.conf.default for further information
 
 # Database settings
-database = postgres 
+database = postgres
 pg_host = $DB_HOST
 pg_user = ${DB_USER}
 pg_password = $DB_PASSWORD
@@ -150,7 +150,7 @@ echo "Initializing Kong"
 if [ "$EE_LICENSE" != "placeholder" ]; then
     ADMIN_TOKEN=$(aws_get_parameter "ee/admin/token")
     sudo -u kong KONG_PASSWORD=$ADMIN_TOKEN kong migrations bootstrap
-else 
+else
     sudo -u kong kong migrations bootstrap
 fi
 
@@ -255,7 +255,7 @@ fi
 
 if [ "$EE_LICENSE" != "placeholder" ]; then
     echo "Configuring enterprise edition settings"
-    
+
     # Monitor role, endpoints, user, for healthcheck
     curl -s -X GET -I http://localhost:8001/rbac/roles/monitor | grep -q "200 OK"
     if [ $? != 0 ]; then
@@ -286,5 +286,5 @@ admin_gui_auth = basic-auth
 admin_gui_session_conf = { "secret":"${SESSION_SECRET}", "cookie_secure":false }
 EOF
 
-    sv start /etc/sv/kong     
+    sv start /etc/sv/kong
 fi

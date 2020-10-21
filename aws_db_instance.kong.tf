@@ -13,7 +13,7 @@ resource "aws_db_instance" "kong" {
   db_subnet_group_name    = var.db_subnets
   multi_az                = var.db_multi_az
   parameter_group_name    = format("%s-%s", var.service, var.environment)
-
+  storage_encrypted       = true
 
   username = "root"
   password = random_string.master_password.result
@@ -33,22 +33,4 @@ resource "aws_db_instance" "kong" {
     var.tags
   )
   depends_on = [aws_db_parameter_group.kong]
-}
-
-resource "aws_db_parameter_group" "kong" {
-  count = var.db_instance_count > 0 ? 1 : 0
-
-  name        = format("%s-%s", var.service, var.environment)
-  family      = var.db_family
-  description = var.description
-
-  tags = merge(
-    {
-      "Name"        = format("%s-%s", var.service, var.environment),
-      "Environment" = var.environment,
-      "Description" = var.description,
-      "Service"     = var.service,
-    },
-    var.tags
-  )
 }

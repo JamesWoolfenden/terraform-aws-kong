@@ -231,6 +231,7 @@ resource "aws_lb" "internal" {
 }
 
 resource "aws_lb_listener" "internal-http" {
+  #checkov:skip=CKV_AWS_2: "Ensure ALB protocol is HTTPS"
   count = var.enable_internal_lb ? 1 : 0
 
   load_balancer_arn = aws_lb.internal[0].arn

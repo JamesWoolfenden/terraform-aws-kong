@@ -6,7 +6,7 @@
 
 - RDS support (now the default over Aurora).
 - Dev Portal support in Enterprise Edition.
-- [decK: declarative Kong configuration](https://github.com/hbagdi/deck) support. 
+- [decK: declarative Kong configuration](https://github.com/hbagdi/deck) support.
 - Use random provider to automatically generate passwords.
 
 ### Changed
