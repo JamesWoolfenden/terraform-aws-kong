@@ -28,6 +28,7 @@ resource "aws_lb_target_group" "external" {
 }
 
 resource "aws_lb" "external" {
+  #checkov:skip=CKV_AWS_91
   count = var.enable_external_lb ? 1 : 0
 
   name     = format("%s-%s-external", var.service, var.environment)
@@ -208,6 +209,7 @@ resource "aws_lb_target_group" "portal" {
 }
 
 resource "aws_lb" "internal" {
+  #checkov:skip=CKV_AWS_91
   count = var.enable_internal_lb ? 1 : 0
 
   name     = format("%s-%s-internal", var.service, var.environment)
@@ -232,6 +234,8 @@ resource "aws_lb" "internal" {
 
 resource "aws_lb_listener" "internal-http" {
   #checkov:skip=CKV_AWS_2: "Ensure ALB protocol is HTTPS"
+  #checkov:skip=CKV_AWS_103: Its internal.
+  #checkov:skip=CKV_AWS_91:
   count = var.enable_internal_lb ? 1 : 0
 
   load_balancer_arn = aws_lb.internal[0].arn
