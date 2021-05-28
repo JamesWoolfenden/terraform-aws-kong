@@ -944,16 +944,16 @@ Create the resources in AWS:
 If installing Enterprise Edition, while resources are being provisioned login
 to the AWS console and navigate to:
 
-    Systems Manager -> Parameter Store
+Systems Manager -> Parameter Store
 
 Update the license key by editing the parameter (default value is "placeholder"):
 
-    /[service]/[environment]/ee/license
+/[service]/[environment]/ee/license
 
 Update the Bintray authentication parameter (default value is "placeholder",
 format is "username:apikey")" for downloads:
 
-    /[service]/[environment]/ee/bintray-auth
+/[service]/[environment]/ee/bintray-auth
 
 Alternatively, if your terraform files and state are secure, you can pass them
 as variables to the module for a completely hands-off installation.

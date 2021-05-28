@@ -10,7 +10,7 @@ on:
       - main
 env:
   terraform: 0.14.8
-  tf_target_dir: example/examplea
+  tf_target_dir: .
   branch: main
   LINODE_TOKEN: ${{ secrets.LINODE_TOKEN }}
 jobs:

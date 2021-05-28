@@ -1,4 +1,7 @@
 resource "aws_rds_cluster" "kong" {
+  # checkov:skip=CKV2_AWS_8: ADD REASON
+  # checkov:skip=CKV_AWS_128
+  # checkov:skip=CKV_AWS_139
   count = var.enable_aurora && var.db_instance_count > 0 ? 1 : 0
 
   cluster_identifier = format("%s-%s", var.service, var.environment)

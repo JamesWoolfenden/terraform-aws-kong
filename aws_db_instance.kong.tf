@@ -1,4 +1,6 @@
 resource "aws_db_instance" "kong" {
+  # checkov:skip=CKV_AWS_129: ADD REASON
+  # checkov:skip=CKV_AWS_118: ADD REASON
   count      = local.enable_rds ? 1 : 0
   identifier = format("%s-%s", var.service, var.environment)
 
@@ -11,7 +13,7 @@ resource "aws_db_instance" "kong" {
 
   backup_retention_period = var.db_backup_retention_period
   db_subnet_group_name    = var.db_subnets
-  multi_az                = var.db_multi_az
+  multi_az                = true
   parameter_group_name    = format("%s-%s", var.service, var.environment)
   storage_encrypted       = true
 

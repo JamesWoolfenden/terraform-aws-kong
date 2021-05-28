@@ -7,7 +7,7 @@ on:
 
 env:
   terraform: 0.14.8
-  tf_target_dir: example/examplea
+  tf_target_dir: .
 
 jobs:
   terraform:
