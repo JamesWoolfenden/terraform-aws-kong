@@ -1,16 +1,12 @@
 # AWS Data
 data "aws_vpc" "vpc" {
-  state = "available"
-
-  tags = {
-    "Name" = var.vpc
-  }
+  id = var.vpc_id
 }
 
 data "aws_region" "current" {}
 
 data "aws_subnet_ids" "public" {
-  vpc_id = data.aws_vpc.vpc.id
+  vpc_id = var.vpc_id
 
   filter {
     name   = "tag:${var.subnet_tag}"
@@ -19,7 +15,7 @@ data "aws_subnet_ids" "public" {
 }
 
 data "aws_subnet_ids" "private" {
-  vpc_id = data.aws_vpc.vpc.id
+  vpc_id = var.vpc_id
 
   filter {
     name   = "tag:${var.subnet_tag}"
@@ -28,7 +24,7 @@ data "aws_subnet_ids" "private" {
 }
 
 data "aws_security_group" "default" {
-  vpc_id = data.aws_vpc.vpc.id
+  vpc_id = var.vpc_id
 
   tags = {
     "Name" = var.default_security_group

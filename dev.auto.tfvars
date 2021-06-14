@@ -1,0 +1,8 @@
+environment       = "dev"
+ssl_cert_admin    = ""
+ssl_cert_external = ""
+ssl_cert_internal = ""
+ssl_cert_manager  = ""
+ssl_cert_portal   = ""
+vpc_id            = "vpc-0c33dc8cd64f408c4"
+region            = "eu-west-2"
