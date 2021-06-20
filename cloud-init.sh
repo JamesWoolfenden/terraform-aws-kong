@@ -2,7 +2,7 @@
 
 # Function to grab SSM parameters
 aws_get_parameter() {
-    aws ssm --region ${REGION} get-parameter \
+    aws ssm --region "${REGION}" get-parameter \
         --name "${PARAMETER_PATH}/$1" \
         --with-decryption \
         --output text \
@@ -17,7 +17,7 @@ dpkg-reconfigure -f noninteractive unattended-upgrades
 
 # Installing decK
 # https://github.com/hbagdi/deck
-curl -sL https://github.com/hbagdi/deck/releases/download/v${DECK_VERSION}/deck_${DECK_VERSION}_linux_amd64.tar.gz \
+curl -sL "https://github.com/hbagdi/deck/releases/download/v${DECK_VERSION}/deck_${DECK_VERSION}_linux_amd64.tar.gz" \
     -o deck.tar.gz
 tar zxf deck.tar.gz deck
 sudo mv deck /usr/local/bin
@@ -29,15 +29,15 @@ echo "Installing Kong"
 EE_LICENSE=$(aws_get_parameter ee/license)
 EE_CREDS=$(aws_get_parameter ee/bintray-auth)
 if [ "$EE_LICENSE" != "placeholder" ]; then
-    curl -sL https://kong.bintray.com/kong-enterprise-edition-deb/dists/${EE_PKG} \
-        -u $EE_CREDS \
-        -o ${EE_PKG}
+    curl -sL "https://kong.bintray.com/kong-enterprise-edition-deb/dists/${EE_PKG}" \
+        -u "$EE_CREDS" \
+        -o "${EE_PKG}"
 
-    if [ ! -f ${EE_PKG} ]; then
+    if [ ! -f "${EE_PKG}" ]; then
         echo "Error: Enterprise edition download failed, aborting."
         exit 1
     fi
-    dpkg -i ${EE_PKG}
+    dpkg -i "${EE_PKG}"
 
     cat <<EOF > /etc/kong/license.json
 $EE_LICENSE
@@ -46,8 +46,8 @@ EOF
     chmod 640 /etc/kong/license.json
 else
     curl -sL "https://bintray.com/kong/kong-deb/download_file?file_path=${CE_PKG}" \
-        -o ${CE_PKG}
-    dpkg -i ${CE_PKG}
+        -o "${CE_PKG}"
+    dpkg -i "${CE_PKG}"
 fi
 
 # Setup database
@@ -58,7 +58,7 @@ DB_NAME=$(aws_get_parameter "db/name")
 DB_PASSWORD=$(aws_get_parameter "db/password")
 export PGPASSWORD
 
-RESULT=$(psql --host $DB_HOST --username root \
+RESULT=$(psql --host "$DB_HOST" --username root \
     --tuples-only --no-align postgres \
     <<EOF
 SELECT 1 FROM pg_roles WHERE rolname='${DB_USER}'
@@ -70,9 +70,9 @@ if [ $? != 0 ]; then
     exit 1
 fi
 
-echo $RESULT | grep -q 1
+echo "$RESULT" | grep -q 1
 if [ $? != 0 ]; then
-    psql --host $DB_HOST --username root postgres <<EOF
+    psql --host "$DB_HOST" --username root postgres <<EOF
 CREATE USER ${DB_USER} WITH PASSWORD '$DB_PASSWORD';
 GRANT ${DB_USER} TO root;
 CREATE DATABASE $DB_NAME OWNER = ${DB_USER};
@@ -149,7 +149,7 @@ chmod 2775 /usr/local/kong
 echo "Initializing Kong"
 if [ "$EE_LICENSE" != "placeholder" ]; then
     ADMIN_TOKEN=$(aws_get_parameter "ee/admin/token")
-    sudo -u kong KONG_PASSWORD=$ADMIN_TOKEN kong migrations bootstrap
+    sudo -u kong KONG_PASSWORD="$ADMIN_TOKEN" kong migrations bootstrap
 else
     sudo -u kong kong migrations bootstrap
 fi
@@ -214,7 +214,7 @@ exec chpst -u kong /usr/bin/svlogd -tt /var/log/kong
 EOF
 chmod 744 /etc/sv/kong/run /etc/sv/kong/log/run
 
-cd /etc/service
+cd /etc/service  || exit
 ln -s /etc/sv/kong
 
 # Verify Admin API is up
