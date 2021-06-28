@@ -1,6 +1,7 @@
 resource "aws_db_instance" "kong" {
   # checkov:skip=CKV_AWS_129: ADD REASON
   # checkov:skip=CKV_AWS_118: ADD REASON
+  # checkov:skip=CKV_AWS_161:THIRD PARTY
   count      = local.enable_rds ? 1 : 0
   identifier = format("%s-%s", var.service, var.environment)
 

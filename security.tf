@@ -1,5 +1,6 @@
 # PostgreSQL security group
 resource "aws_security_group" "postgresql" {
+  # checkov:skip=CKV2_AWS_5: ADD REASON
   description = "Kong RDS instance"
   name        = format("%s-%s-postgresql", var.service, var.environment)
   vpc_id      = data.aws_vpc.vpc.id
@@ -39,6 +40,7 @@ resource "aws_security_group_rule" "postgresql-ingress-bastion" {
 
 # Redis security group
 resource "aws_security_group" "redis" {
+  # checkov:skip=CKV2_AWS_5: ADD REASON
   description = "Kong redis cluster"
   name        = format("%s-%s-redis", var.service, var.environment)
   vpc_id      = data.aws_vpc.vpc.id
