@@ -1,8 +1,3 @@
-# Network settings
-variable "vpc" {
-  description = "VPC Name for the AWS account and region specified"
-  type        = string
-}
 
 variable "subnet_tag" {
   description = "Tag used on subnets to define Tier"
@@ -521,4 +516,12 @@ variable "db_final_snapshot_identifier" {
   description = "The final snapshot name of the RDS instance when it gets destroyed"
   type        = string
   default     = ""
+}
+
+variable "region" {
+  type = string
+}
+
+variable "vpc_id" {
+  type = string
 }
