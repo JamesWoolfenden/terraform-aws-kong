@@ -1,5 +1,6 @@
 # PostgreSQL security group
 resource "aws_security_group" "postgresql" {
+  # checkov:skip=CKV2_AWS_5: ADD REASON
   description = "Kong RDS instance"
   name        = format("%s-%s-postgresql", var.service, var.environment)
   vpc_id      = var.vpc_id

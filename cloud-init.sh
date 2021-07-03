@@ -214,7 +214,7 @@ exec chpst -u kong /usr/bin/svlogd -tt /var/log/kong
 EOF
 chmod 744 /etc/sv/kong/run /etc/sv/kong/log/run
 
-cd /etc/service  || exit
+cd /etc/service || exit
 ln -s /etc/sv/kong
 
 # Verify Admin API is up
