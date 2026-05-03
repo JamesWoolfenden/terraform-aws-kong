@@ -26,7 +26,6 @@ resource "aws_lb_target_group" "external" {
     var.tags
   )
 }
-
 resource "aws_lb" "external" {
   # checkov:skip=CKV_AWS_150: ADD REASON
   # checkov:skip=CKV_AWS_91
@@ -34,7 +33,7 @@ resource "aws_lb" "external" {
 
   name     = format("%s-%s-external", var.service, var.environment)
   internal = false
-  subnets  = data.aws_subnet_ids.public.ids
+  subnets  = data.aws_subnets.public.ids
 
   security_groups = [aws_security_group.external-lb.id]
 
@@ -52,8 +51,6 @@ resource "aws_lb" "external" {
   )
   drop_invalid_header_fields = true
 }
-
-
 resource "aws_lb_listener" "external-https" {
   count = var.enable_external_lb ? 1 : 0
 
@@ -69,7 +66,6 @@ resource "aws_lb_listener" "external-https" {
     type             = "forward"
   }
 }
-
 # Internal
 resource "aws_lb_target_group" "internal" {
   count = var.enable_internal_lb ? 1 : 0
@@ -98,7 +94,6 @@ resource "aws_lb_target_group" "internal" {
     var.tags
   )
 }
-
 resource "aws_lb_target_group" "admin" {
   count = var.enable_ee ? 1 : 0
 
@@ -126,7 +121,6 @@ resource "aws_lb_target_group" "admin" {
     var.tags
   )
 }
-
 resource "aws_lb_target_group" "manager" {
   count = var.enable_ee ? 1 : 0
 
@@ -154,7 +148,6 @@ resource "aws_lb_target_group" "manager" {
     var.tags
   )
 }
-
 resource "aws_lb_target_group" "portal-gui" {
   count = var.enable_ee ? 1 : 0
 
@@ -182,7 +175,6 @@ resource "aws_lb_target_group" "portal-gui" {
     var.tags
   )
 }
-
 resource "aws_lb_target_group" "portal" {
   count = var.enable_ee ? 1 : 0
 
@@ -210,7 +202,6 @@ resource "aws_lb_target_group" "portal" {
     var.tags
   )
 }
-
 resource "aws_lb" "internal" {
   # checkov:skip=CKV2_AWS_20: ADD REASON
   # checkov:skip=CKV_AWS_91
@@ -218,7 +209,7 @@ resource "aws_lb" "internal" {
 
   name     = format("%s-%s-internal", var.service, var.environment)
   internal = true
-  subnets  = data.aws_subnet_ids.private.ids
+  subnets  = data.aws_subnets.private.ids
 
   security_groups = [aws_security_group.internal-lb.id]
 
@@ -236,8 +227,6 @@ resource "aws_lb" "internal" {
   )
   drop_invalid_header_fields = true
 }
-
-
 resource "aws_lb_listener" "internal-http" {
   #checkov:skip=CKV_AWS_2: "Ensure ALB protocol is HTTPS"
   #checkov:skip=CKV_AWS_103: Its internal.
@@ -253,7 +242,6 @@ resource "aws_lb_listener" "internal-http" {
     type             = "forward"
   }
 }
-
 resource "aws_lb_listener" "internal-https" {
   count = var.enable_internal_lb ? 1 : 0
 
@@ -269,7 +257,6 @@ resource "aws_lb_listener" "internal-https" {
     type             = "forward"
   }
 }
-
 resource "aws_lb_listener" "admin" {
   count = var.enable_ee ? 1 : 0
 
@@ -285,7 +272,6 @@ resource "aws_lb_listener" "admin" {
     type             = "forward"
   }
 }
-
 resource "aws_lb_listener" "manager" {
   count = var.enable_ee ? 1 : 0
 
@@ -301,7 +287,6 @@ resource "aws_lb_listener" "manager" {
     type             = "forward"
   }
 }
-
 resource "aws_lb_listener" "portal-gui" {
   count = var.enable_ee ? 1 : 0
 
@@ -317,7 +302,6 @@ resource "aws_lb_listener" "portal-gui" {
     type             = "forward"
   }
 }
-
 resource "aws_lb_listener" "portal" {
   count = var.enable_ee ? 1 : 0
 

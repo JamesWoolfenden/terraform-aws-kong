@@ -1,7 +1,6 @@
-
 resource "aws_autoscaling_group" "kong" {
   name                = format("%s-%s", var.service, var.environment)
-  vpc_zone_identifier = data.aws_subnet_ids.private.ids
+  vpc_zone_identifier = data.aws_subnets.private.ids
 
   launch_configuration = aws_launch_configuration.kong.name
 
