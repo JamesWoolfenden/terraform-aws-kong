@@ -1,5 +1,6 @@
 # PostgreSQL security group
 resource "aws_security_group" "postgresql" {
+  # checkov:skip=CKV_AWS_382: Unrestricted outbound access required for resource functionality
   # checkov:skip=CKV2_AWS_5: ADD REASON
   description = "Kong RDS instance"
   name        = format("%s-%s-postgresql", var.service, var.environment)
@@ -37,6 +38,7 @@ resource "aws_security_group_rule" "postgresql-ingress-bastion" {
 }
 # Redis security group
 resource "aws_security_group" "redis" {
+  # checkov:skip=CKV_AWS_382: Unrestricted outbound access required for resource functionality
   # checkov:skip=CKV2_AWS_5: ADD REASON
   description = "Kong redis cluster"
   name        = format("%s-%s-redis", var.service, var.environment)
@@ -74,6 +76,7 @@ resource "aws_security_group_rule" "redis-ingress-bastion" {
 }
 # Kong node security group and rules
 resource "aws_security_group" "kong" {
+  # checkov:skip=CKV_AWS_382: Unrestricted outbound access required for resource functionality
   description = "Kong EC2 instances"
   name        = format("%s-%s", var.service, var.environment)
   vpc_id      = var.vpc_id
