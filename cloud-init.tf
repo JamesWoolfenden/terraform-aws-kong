@@ -1,7 +1,6 @@
 data "template_file" "cloud-init" {
   template = file("${path.module}/cloud-init.cfg")
 }
-
 data "template_file" "shell-script" {
   template = file("${path.module}/cloud-init.sh")
 
@@ -18,7 +17,6 @@ data "template_file" "shell-script" {
     SESSION_SECRET = random_string.session_secret.result
   }
 }
-
 data "template_cloudinit_config" "cloud-init" {
   gzip          = true
   base64_encode = true

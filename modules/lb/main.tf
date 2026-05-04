@@ -1,7 +1,6 @@
 locals {
   load_balancer = element(split("/", var.load_balancer), 1)
 }
-
 resource "aws_cloudwatch_metric_alarm" "unhealthy-host-count" {
   count = var.enable ? 1 : 0
 
@@ -24,7 +23,6 @@ resource "aws_cloudwatch_metric_alarm" "unhealthy-host-count" {
     "LoadBalancer" = var.load_balancer
   }
 }
-
 resource "aws_cloudwatch_metric_alarm" "http-code-4xx-count" {
   count = var.enable ? 1 : 0
 
@@ -47,7 +45,6 @@ resource "aws_cloudwatch_metric_alarm" "http-code-4xx-count" {
     LoadBalancer = var.load_balancer
   }
 }
-
 resource "aws_cloudwatch_metric_alarm" "http-code-5xx-count" {
   count = var.enable ? 1 : 0
 

@@ -1,4 +1,5 @@
 resource "aws_kms_key" "kong" {
+  # checkov:skip=CKV2_AWS_64: For example only, key policy managed via IAM
   description = format("%s-%s", var.service, var.environment)
 
   tags = merge(
@@ -12,7 +13,6 @@ resource "aws_kms_key" "kong" {
   )
   enable_key_rotation = true
 }
-
 resource "aws_kms_alias" "kong" {
   name          = format("alias/%s-%s", var.service, var.environment)
   target_key_id = aws_kms_key.kong.key_id

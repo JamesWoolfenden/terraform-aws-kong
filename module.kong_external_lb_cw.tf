@@ -1,5 +1,5 @@
 module "kong_external_lb_cw" {
-  source = "./modules/lb"
+  source = ""
 
   enable        = var.enable_external_lb
   load_balancer = coalesce(join("", aws_lb.external.*.arn_suffix), "none")

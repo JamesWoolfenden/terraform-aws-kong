@@ -15,7 +15,6 @@ resource "aws_security_group" "postgresql" {
     var.tags
   )
 }
-
 resource "aws_security_group_rule" "postgresql-ingress-kong" {
   security_group_id = aws_security_group.postgresql.id
 
@@ -26,7 +25,6 @@ resource "aws_security_group_rule" "postgresql-ingress-kong" {
 
   source_security_group_id = aws_security_group.kong.id
 }
-
 resource "aws_security_group_rule" "postgresql-ingress-bastion" {
   security_group_id = aws_security_group.postgresql.id
 
@@ -37,7 +35,6 @@ resource "aws_security_group_rule" "postgresql-ingress-bastion" {
 
   cidr_blocks = var.bastion_cidr_blocks
 }
-
 # Redis security group
 resource "aws_security_group" "redis" {
   # checkov:skip=CKV2_AWS_5: ADD REASON
@@ -55,7 +52,6 @@ resource "aws_security_group" "redis" {
     var.tags
   )
 }
-
 resource "aws_security_group_rule" "redis-ingress-kong" {
   security_group_id = aws_security_group.redis.id
 
@@ -66,7 +62,6 @@ resource "aws_security_group_rule" "redis-ingress-kong" {
 
   source_security_group_id = aws_security_group.kong.id
 }
-
 resource "aws_security_group_rule" "redis-ingress-bastion" {
   security_group_id = aws_security_group.redis.id
 
@@ -77,7 +72,6 @@ resource "aws_security_group_rule" "redis-ingress-bastion" {
 
   cidr_blocks = var.bastion_cidr_blocks
 }
-
 # Kong node security group and rules
 resource "aws_security_group" "kong" {
   description = "Kong EC2 instances"
@@ -94,7 +88,6 @@ resource "aws_security_group" "kong" {
     var.tags
   )
 }
-
 resource "aws_security_group_rule" "admin-ingress-bastion" {
   security_group_id = aws_security_group.kong.id
 
@@ -105,7 +98,6 @@ resource "aws_security_group_rule" "admin-ingress-bastion" {
 
   cidr_blocks = var.bastion_cidr_blocks
 }
-
 # External load balancer access
 resource "aws_security_group_rule" "proxy-ingress-external-lb" {
   security_group_id = aws_security_group.kong.id
@@ -117,7 +109,6 @@ resource "aws_security_group_rule" "proxy-ingress-external-lb" {
 
   source_security_group_id = aws_security_group.external-lb.id
 }
-
 resource "aws_security_group_rule" "admin-ingress-external-lb" {
   security_group_id = aws_security_group.kong.id
 
@@ -128,7 +119,6 @@ resource "aws_security_group_rule" "admin-ingress-external-lb" {
 
   source_security_group_id = aws_security_group.external-lb.id
 }
-
 # Internal load balancer access
 resource "aws_security_group_rule" "proxy-ingress-internal-lb" {
   security_group_id = aws_security_group.kong.id
@@ -140,7 +130,6 @@ resource "aws_security_group_rule" "proxy-ingress-internal-lb" {
 
   source_security_group_id = aws_security_group.internal-lb.id
 }
-
 resource "aws_security_group_rule" "admin-ingress-internal-lb" {
   security_group_id = aws_security_group.kong.id
 
@@ -151,7 +140,6 @@ resource "aws_security_group_rule" "admin-ingress-internal-lb" {
 
   source_security_group_id = aws_security_group.internal-lb.id
 }
-
 resource "aws_security_group_rule" "manager-ingress-internal-lb" {
   count = var.enable_ee ? 1 : 0
 
@@ -164,7 +152,6 @@ resource "aws_security_group_rule" "manager-ingress-internal-lb" {
 
   source_security_group_id = aws_security_group.internal-lb.id
 }
-
 resource "aws_security_group_rule" "portal-gui-ingress-internal-lb" {
   count = var.enable_ee ? 1 : 0
 
@@ -177,7 +164,6 @@ resource "aws_security_group_rule" "portal-gui-ingress-internal-lb" {
 
   source_security_group_id = aws_security_group.internal-lb.id
 }
-
 resource "aws_security_group_rule" "portal-ingress-internal-lb" {
   count = var.enable_ee ? 1 : 0
 
@@ -190,7 +176,6 @@ resource "aws_security_group_rule" "portal-ingress-internal-lb" {
 
   source_security_group_id = aws_security_group.internal-lb.id
 }
-
 # HTTP outbound for Debian packages
 resource "aws_security_group_rule" "kong-egress-http" {
   security_group_id = aws_security_group.kong.id
@@ -202,7 +187,6 @@ resource "aws_security_group_rule" "kong-egress-http" {
 
   cidr_blocks = ["0.0.0.0/0"]
 }
-
 # HTTPS outbound for awscli, kong
 resource "aws_security_group_rule" "kong-egress-https" {
   security_group_id = aws_security_group.kong.id
@@ -214,7 +198,6 @@ resource "aws_security_group_rule" "kong-egress-https" {
 
   cidr_blocks = ["0.0.0.0/0"]
 }
-
 # Load balancers
 # External
 resource "aws_security_group" "external-lb" {
@@ -232,7 +215,6 @@ resource "aws_security_group" "external-lb" {
     var.tags
   )
 }
-
 resource "aws_security_group_rule" "external-lb-ingress-proxy" {
   security_group_id = aws_security_group.external-lb.id
 
@@ -243,7 +225,6 @@ resource "aws_security_group_rule" "external-lb-ingress-proxy" {
 
   cidr_blocks = var.external_cidr_blocks
 }
-
 resource "aws_security_group_rule" "external-lb-egress-proxy" {
   security_group_id = aws_security_group.external-lb.id
 
@@ -254,7 +235,6 @@ resource "aws_security_group_rule" "external-lb-egress-proxy" {
 
   source_security_group_id = aws_security_group.kong.id
 }
-
 resource "aws_security_group_rule" "external-lb-egress-admin" {
   security_group_id = aws_security_group.external-lb.id
 
@@ -265,7 +245,6 @@ resource "aws_security_group_rule" "external-lb-egress-admin" {
 
   source_security_group_id = aws_security_group.kong.id
 }
-
 # Internal
 resource "aws_security_group" "internal-lb" {
   description = "Kong Internal Load Balancer"
@@ -282,7 +261,6 @@ resource "aws_security_group" "internal-lb" {
     var.tags
   )
 }
-
 resource "aws_security_group_rule" "internal-lb-ingress-proxy-http" {
   security_group_id = aws_security_group.internal-lb.id
 
@@ -293,7 +271,6 @@ resource "aws_security_group_rule" "internal-lb-ingress-proxy-http" {
 
   cidr_blocks = var.internal_http_cidr_blocks
 }
-
 resource "aws_security_group_rule" "internal-lb-ingress-proxy-https" {
   security_group_id = aws_security_group.internal-lb.id
 
@@ -304,7 +281,6 @@ resource "aws_security_group_rule" "internal-lb-ingress-proxy-https" {
 
   cidr_blocks = var.internal_https_cidr_blocks
 }
-
 resource "aws_security_group_rule" "internal-lb-ingress-admin" {
   count = var.enable_ee ? 1 : 0
 
@@ -317,7 +293,6 @@ resource "aws_security_group_rule" "internal-lb-ingress-admin" {
 
   cidr_blocks = var.admin_cidr_blocks
 }
-
 resource "aws_security_group_rule" "internal-lb-ingress-manager" {
   count = var.enable_ee ? 1 : 0
 
@@ -330,7 +305,6 @@ resource "aws_security_group_rule" "internal-lb-ingress-manager" {
 
   cidr_blocks = var.manager_cidr_blocks
 }
-
 resource "aws_security_group_rule" "internal-lb-ingress-portal-gui" {
   count = var.enable_ee ? 1 : 0
 
@@ -343,7 +317,6 @@ resource "aws_security_group_rule" "internal-lb-ingress-portal-gui" {
 
   cidr_blocks = var.portal_cidr_blocks
 }
-
 resource "aws_security_group_rule" "internal-lb-ingress-portal" {
   count = var.enable_ee ? 1 : 0
 
@@ -356,7 +329,6 @@ resource "aws_security_group_rule" "internal-lb-ingress-portal" {
 
   cidr_blocks = var.portal_cidr_blocks
 }
-
 resource "aws_security_group_rule" "internal-lb-egress-proxy" {
   security_group_id = aws_security_group.internal-lb.id
 
@@ -367,7 +339,6 @@ resource "aws_security_group_rule" "internal-lb-egress-proxy" {
 
   source_security_group_id = aws_security_group.kong.id
 }
-
 resource "aws_security_group_rule" "internal-lb-egress-admin" {
   security_group_id = aws_security_group.internal-lb.id
 
@@ -378,7 +349,6 @@ resource "aws_security_group_rule" "internal-lb-egress-admin" {
 
   source_security_group_id = aws_security_group.kong.id
 }
-
 resource "aws_security_group_rule" "internal-lb-egress-manager" {
   count = var.enable_ee ? 1 : 0
 
@@ -391,7 +361,6 @@ resource "aws_security_group_rule" "internal-lb-egress-manager" {
 
   source_security_group_id = aws_security_group.kong.id
 }
-
 resource "aws_security_group_rule" "internal-lb-egress-portal-gui" {
   count = var.enable_ee ? 1 : 0
 
@@ -404,7 +373,6 @@ resource "aws_security_group_rule" "internal-lb-egress-portal-gui" {
 
   source_security_group_id = aws_security_group.kong.id
 }
-
 resource "aws_security_group_rule" "internal-lb-egress-portal" {
   count = var.enable_ee ? 1 : 0
 

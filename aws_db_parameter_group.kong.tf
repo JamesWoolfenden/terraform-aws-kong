@@ -1,4 +1,3 @@
-
 resource "aws_db_parameter_group" "kong" {
   count = var.db_instance_count > 0 ? 1 : 0
 

@@ -9,7 +9,6 @@ resource "aws_ssm_parameter" "ee-bintray-auth" {
     ignore_changes = [value]
   }
 }
-
 resource "aws_ssm_parameter" "ee-license" {
   name  = format("/%s/%s/ee/license", var.service, var.environment)
   type  = "SecureString"
@@ -21,7 +20,6 @@ resource "aws_ssm_parameter" "ee-license" {
     ignore_changes = [value]
   }
 }
-
 resource "aws_ssm_parameter" "ee-admin-token" {
   name  = format("/%s/%s/ee/admin/token", var.service, var.environment)
   type  = "SecureString"
@@ -33,7 +31,6 @@ resource "aws_ssm_parameter" "ee-admin-token" {
     ignore_changes = [value]
   }
 }
-
 resource "aws_ssm_parameter" "db-host" {
   name = format("/%s/%s/db/host", var.service, var.environment)
   type = "String"
@@ -43,13 +40,11 @@ resource "aws_ssm_parameter" "db-host" {
     "none"
   )
 }
-
 resource "aws_ssm_parameter" "db-name" {
   name  = format("/%s/%s/db/name", var.service, var.environment)
   type  = "String"
   value = replace(format("%s_%s", var.service, var.environment), "-", "_")
 }
-
 resource "aws_ssm_parameter" "db-password" {
   name  = format("/%s/%s/db/password", var.service, var.environment)
   type  = "SecureString"
@@ -63,7 +58,6 @@ resource "aws_ssm_parameter" "db-password" {
 
   overwrite = true
 }
-
 resource "aws_ssm_parameter" "db-master-password" {
   name  = format("/%s/%s/db/password/master", var.service, var.environment)
   type  = "SecureString"
